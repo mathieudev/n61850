@@ -1,0 +1,26 @@
+var NAVTREEINDEX =
+{
+"index.html":[],
+"annotated.html":[0,0],
+"struct_action.html":[0,0,0],
+"struct_command.html":[0,0,1],
+"struct_connection.html":[0,0,2],
+"struct_parameter.html":[0,0,3],
+"classes.html":[0,1],
+"functions.html":[0,2,0],
+"functions_vars.html":[0,2,1],
+"files.html":[1,0],
+"n61850_8c.html":[1,0,0],
+"n61850_8h.html":[1,0,1],
+"n61850__global_8c.html":[1,0,2],
+"n61850__global_8h.html":[1,0,3],
+"n61850__goose_8c.html":[1,0,4],
+"n61850__goose_8h.html":[1,0,5],
+"n61850__mms_8c.html":[1,0,6],
+"n61850__mms_8h.html":[1,0,7],
+"globals.html":[1,1,0],
+"globals_func.html":[1,1,1],
+"globals_vars.html":[1,1,2],
+"globals_type.html":[1,1,3],
+"globals_defs.html":[1,1,4]
+};

@@ -1,0 +1,183 @@
+.\" Manpage for n61850.
+.\" Contact kilian.marty@edu.hefr.ch to correct errors or typos.
+.TH man 1 "03 january 2015" "1.0" "n61850 man page"
+
+.SH NAME
+n61850 \- Tools for Audit, Scouting and Control on IEC61850 network
+
+.SH SYNOPSIS
+.B n61850
+[\fB-i\fP \fIaddress\fP] [\fB-p\fP \fIport\fP] [\fB-f\fP \fImode\fP] [\fB-m\fP \fIapplication\fP] [\fB-g\fP|\fB-d\fP|\fB-l\fP] [\fB-n\fP \fIfilename\fP] [\fB-v\fP \fIvalue\fP] [\fB-t\fP \fItype\fP] [\fB-a\fP \fIdata_attribute_reference\fP] [\fB-fc\fP \fIfunctional_constraint\fP] [\fB-di\fP \fIdescription_id\fP] [\fB-si\fP \fIdataset_id\fP] [\fB-ai\fP \fIapp_id\fP]
+
+.SH DESCRIPTION
+n61850 is a high level programm to communicate on smartgrid network IEC61850. It could be simulate a MMS client or server, a GOOSE publisher or subscriber and finally, scanning and scouting on this kind of network.
+.\ ----------------------------------------------------------------------------------------
+.SH OPTIONS
+The following options are supported:
+.TP
+\fB-i\fP \fIaddress\fP
+.br
+Set the ip address of the target (DEFAULT \fIlocalhost\fP)
+.TP
+\fB-p\fP \fIport\fP
+.br
+Set the port number of the target (DEFAULT \fI102\fP)
+.TP
+\fB-f\fP \fImode\fP
+.br
+Set the mode of the application, \fImms\fP or \fIgoose\fP
+.TP
+\fB-m\fP \fIapplication\fP
+.br
+Select the application process (see APPLICATION PROCESS)
+.TP
+\fB-l\fP 
+.br
+Set the mode LIST (use with -m file)
+.TP
+\fB-g\fP 
+.br
+Set the mode GET (use with -m file)
+.TP
+\fB-d\fP
+.br 
+Set the mode DELETE (use with -m file)
+.TP
+\fB-n\fP \fIfilename\fP
+.br
+Set the filename of the target file (use with -m file)
+.TP
+\fB-v\fP \fIvalue\fP
+.br
+Set the value of the data attribute (use with -m set)
+.TP
+\fB-t\fP \fItype\fP
+.br
+Set the type of the value of the data attribute, choices are : \fI1\fP for \fBboolean\fP , \fI2\fP for \fBint\fP, \fI3\fP for \fBstring\fP (use with -m set)
+.TP
+\fB-a\fP \fIdata_attribute_reference\fP
+.br
+Set the data attribute reference (use with -m set and -m read)
+.TP
+\fB-fc\fP \fIfunctional_constraint\fP
+.br
+Set the functional constraint, working with Data Object, choices are : \fI1\fP for \fBDC\fP , \fI2\fP for \fBMX\fP, \fI3\fP for \fBEX\fP (use with -m read)
+.TP
+\fB-di\fP \fIdescription_id\fP
+.br
+Set the description id (use with -m publish)
+.TP
+\fB-si\fP \fIdataset_id\fP
+.br
+Set the dataset id (use with -m publish)
+.TP
+\fB-ai\fP \fIapp_id\fP
+.br
+Set the application id (use with -m publish) (DEFAULT \fI1000\fP)
+.\ ----------------------------------------------------------------------------------------
+.SH APPLICATION PROCESS
+Below the list of the arguments used for select the application process (after -m):
+.TP
+\fBconnect\fP 
+Connect to a IED then disconnect, use to check the presence of a IED
+.TP
+\fBdiscover\fP 
+.br
+Get the network where the client is and perform a scan to find each ip address with port 102 open
+.TP
+\fBscan\fP 
+.br
+Scan a IED and display all the domains (Logical Devices) present on the IED. Display the variables (Logical Nodes, Data Objects, Data Attributes) in each domain.
+.TP
+\fBset\fP
+.br
+Set the value of a variable of the IED
+.TP
+\fBread\fP 
+.br
+Read the value of a variable of the IED
+.TP
+\fBfile\fP 
+.br
+List, Download or Delete a file on an IED
+.TP
+\fBpublish\fP
+.br 
+Set the client on publisher mode, publish GOOSE information in multicast 
+.TP
+\fBsubscribe\fP 
+.br
+Set the client on a subscriber mode, subscribe to a publisher and read his information
+.TP
+\fBdos\fP 
+.br
+Begin a DOS attack with a flood of GOOSE message, the client will be blocked in this mode when flooding. Stop with CTRL-C.
+.\ ----------------------------------------------------------------------------------------
+.SH EXAMPLES
+.TP
+\fBdiscover\fP 
+.br
+sudo n61850 -m discover
+.TP
+\fBconnect\fP 
+.br
+sudo n61850 -i 192.168.0.2 -p 102 -f mms -m connect
+.TP
+\fBscan\fP 
+.br
+sudo n61850 -i 192.168.0.2 -p 102 -f mms -m scan
+.TP
+\fBset\fP
+.br
+sudo n61850 -i 192.168.0.2 -p 102 -f mms -m set -v false -t 1 -a "simpleIOGenericIO/GGIO1.SPCSO3"
+.br
+sudo n61850 -i 192.168.0.2 -p 102 -f mms -m set -v 10 -t 2 -a "simpleIOGenericIO/GGIO1.SPCSO3"
+.br
+sudo n61850 -i 192.168.0.2 -p 102 -f mms -m set -v "hello" -t 3 -a "simpleIOGenericIO/GGIO1.SPCSO3"
+.TP
+\fBread\fP 
+.br
+sudo n61850 -i 192.168.0.2 -p 102 -f mms -m read -a IED_DIST_CTRL/CALH1.ErrBoard1.dataNs -fc 3
+.TP
+\fBfile\fP 
+sudo n61850 -i 192.168.0.2 -p 102 -f mms -m file -l
+.br
+sudo n61850 -i 192.168.0.2 -p 102 -f mms -m file -g -n "IEDSERVER.BIN"
+.br
+sudo n61850 -i 192.168.0.2 -p 102 -f mms -m file -d -n "IEDSERVER.BIN"
+.TP
+\fBpublish\fP
+.br 
+sudo n61850 -f goose -m publish -t 1 -v true -di "IED_GEN_CTRL/LLN0\\$GO\\$Control_DataSet" -si "IED_GEN_CTRL/LLN0\\$DataSet"
+.br 
+sudo n61850 -f goose -m publish -t 2 -v 16 -di "IED_GEN_CTRL/LLN0\\$GO\\$Control_DataSet" -si "IED_GEN_CTRL/LLN0\\$DataSet"
+.TP
+\fBsubscribe\fP 
+.br
+sudo n61850 -f goose -m subscribe -a "IED_GEN_CTRL/LLN0\\$GO\\$Control_DataSet" -ai 01
+
+.TP
+\fBdos\fP 
+.br
+sudo n61850 -f goose -m dos -di "IED_GEN_CTRL/LLN0\\$GO\\$Control_DataSet"
+
+.\ ----------------------------------------------------------------------------------------
+.SH REFERENCES
+nmap(1), ncat(1), nping(1)
+
+.\ ----------------------------------------------------------------------------------------
+.SH BUGS
+To report a bug, please contact an author.
+
+The methode set is not working at this moment.
+
+.\ ----------------------------------------------------------------------------------------
+.SH LICENSE
+License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>.
+This is free software: you are free to change and redistribute it.  There is NO WARRANTY, to the extent permitted by law.
+
+.\ ----------------------------------------------------------------------------------------
+.SH AUTHORS
+Devaud Mathieu (mathieu.devaud@edu.hefr.ch)
+.br
+Marty Kilian (kilian.marty@edu.hefr.ch)
