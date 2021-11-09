@@ -1,0 +1,18 @@
+{
+  "summary": {
+    "title": "Threat model example",
+    "owner": "Mathieu",
+    "description": "First test of threat model"
+  },
+  "detail": {
+    "contributors": [],
+    "diagrams": [
+      {
+        "title": "First diagram",
+        "thumbnail": "./public/content/images/thumbnail.jpg",
+        "id": 0
+      }
+    ],
+    "reviewer": "Mathieu"
+  }
+}
